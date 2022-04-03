@@ -1,16 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
 import DateRangePicker from "react-daterange-picker";
 import "react-daterange-picker/dist/css/react-calendar.css";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Button from "@atlaskit/button";
 import originalMoment from "moment";
 import { extendMoment } from "moment-range";
 import Twpicker from "./TWpicker";
-import DropdownMenu, {
-    DropdownItemGroup,
-    DropdownItem
-} from "@atlaskit/dropdown-menu";
 const moment = extendMoment(originalMoment);
 
 const Calender = ({ props, setvalue, date }) => {
@@ -176,7 +169,6 @@ const Calender = ({ props, setvalue, date }) => {
             daterange.end.format("YYYY-MM-DD"),
             value
         );
-        //setvalue(Daterange.start.format("YYYY-MM-DD"),Daterange.end.format("YYYY-MM-DD"))
     };
 
     return (
@@ -194,7 +186,7 @@ const Calender = ({ props, setvalue, date }) => {
                 <DateRangePicker
                     value={Daterange}
                     onSelect={onSelect}
-                    singleDateRange={true}
+                    singleDateRange={false}
                     numberOfCalendars={2}
                 />
             </div>

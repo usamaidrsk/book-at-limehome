@@ -9,9 +9,4 @@ const errorMessages = {
         `${field} should have a value greater than ${value}`
 };
 
-const onConfirmMessages = {
-    confirmAction: (field: string, action: string) => `Are you sure, you want to ${action} ${field}?`,
-    confirmLogout: 'Are you sure, you want to logout?'
-};
-
-export { errorMessages, onConfirmMessages };
+export { errorMessages };

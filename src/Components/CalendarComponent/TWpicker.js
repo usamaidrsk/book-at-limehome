@@ -1,61 +1,9 @@
 import React, { useState } from "react";
-import Select, { components } from "react-select";
 import DropdownMenu, {
-    DropdownItemGroup,
     DropdownItem
 } from "@atlaskit/dropdown-menu";
 
 const Twpicker = ({ TWHandle }) => {
-    // const customStyles = {
-    //     menu: (provided, state) => ({
-    //         ...provided,
-    //         width: state.selectProps.width,
-    //         borderBottom: '1px dotted pink',
-    //         color: state.selectProps.menuColor,
-    //         padding: 20,
-    //     }),
-    //     container: (base) => ({
-    //         ...base,
-    //         display: 'inline-block',
-    //         width: base.selectProps.width,
-    //     }),
-    //     valueContainer: (base) => ({
-    //         ...base,
-    //         minHeight: base.selectProps.height,
-    //     }),
-
-    //     singleValue: (provided, state) => {
-    //         const opacity = state.isDisabled ? 0.5 : 1;
-    //         const transition = 'opacity 300ms';
-    //         return { ...provided, opacity, transition };
-    //     },
-    // }
-
-    // const colourOptions = [
-    //     { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
-    //     { value: 'blue', label: 'Blue', color: '#0052CC', isDisabled: true },
-    //     { value: 'purple', label: 'Purple', color: '#5243AA' },
-    //     { value: 'red', label: 'Red', color: '#FF5630', isFixed: true },
-    //     { value: 'orange', label: 'Orange', color: '#FF8B00' },
-    //     { value: 'yellow', label: 'Yellow', color: '#FFC400' },
-    //     { value: 'green', label: 'Green', color: '#36B37E' },
-    //     { value: 'forest', label: 'Forest', color: '#00875A' },
-    //     { value: 'slate', label: 'Slate', color: '#253858' },
-    //     { value: 'silver', label: 'Silver', color: '#666666' },
-    // ];
-
-    // const ControlComponent = props => (
-    //     <div onClick={(e) => {
-    //         console.log("clicker")
-    //         e.preventDefault()
-    //         e.stopPropagation()
-    //     }
-    //     }>
-    //         {<p>Custom Control</p>}
-    //         <components.Control {...props} />
-    //     </div>
-    // );
-
     const [Range, setRange] = useState({
         name: "Date range Template",
         value: null

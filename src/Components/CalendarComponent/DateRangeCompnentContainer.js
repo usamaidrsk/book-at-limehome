@@ -135,13 +135,12 @@ const DateRangeComponent = ({ valueChanged, itemcode, intialvalue }) => {
 
     const today = moment();
 
-    console.log("intial", intialvalue);
-
     const [date, Setdate] = useState({
         startDate: "",
         endDate: "",
         key: ""
     });
+
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
@@ -159,9 +158,13 @@ const DateRangeComponent = ({ valueChanged, itemcode, intialvalue }) => {
             height: state.selectProps.height,
             borderBottom: "1px dotted pink",
             color: state.selectProps.menuColor,
-            padding: 20
+            padding: 0
         }),
-
+        input: (provided, state) => ({
+            ...provided,
+            padding: '.77em',
+            textAlign: "center"
+        }),
         singleValue: (provided, state) => {
             const opacity = state.isDisabled ? 0.5 : 1;
             const transition = "opacity 300ms";
@@ -169,28 +172,30 @@ const DateRangeComponent = ({ valueChanged, itemcode, intialvalue }) => {
         }
     };
 
-    const setvalue = (startdate, enddate, key) => {
+    const selectLable = (date) => {
+        const startDate = moment(date.startDate).format('MMM').toUpperCase() + " " + moment(date.startDate).format('DD')
+        const endDate = moment(date.endDate).format('MMM').toUpperCase() + " " + moment(date.endDate).format('DD')
+        return   startDate + "-" + endDate
+    }
+    const setValue = (startdate, enddate, key) => {
         console.log("inside date picker setvalues", startdate, enddate, key);
-        //setOpen(false)
         Setdate({ startDate: startdate, endDate: enddate, key: key });
     };
 
     const CustomCalender = props => {
-        return <Calendar props={props} setvalue={setvalue} date={date} />;
+        return <Calendar props={props} setvalue={setValue} date={date} />;
     };
     return (
         <Select
             options={[{ label: "", value: "" }]}
             value={{
-                label: date.startDate + "---" + date.endDate,
+                label: selectLable(date),
                 value: date.startDate
             }}
             components={{ Option: CustomCalender }}
             onMenuClose={() => {
                 let value = date;
                 valueChanged(value);
-                //setOpen(state => !state);
-                console.log("menuclosed");
             }}
             styles={customStyles}
             maxMenuHeight="200"
