@@ -15,9 +15,8 @@ type IBookingProps = {
     onSubmit: () => void
 };
 
-const FavouritePropertiesPage = (props: IBookingProps) => {
+const BookingForm = (props: IBookingProps) => {
     const { formik, countries, onSubmit } = props;
-
 
     let selectedvalues = {
         startDate: "2020-01-02",
@@ -36,12 +35,15 @@ const FavouritePropertiesPage = (props: IBookingProps) => {
                 <div className="w-full flex flex-col space-y-4 mt-5">
                     <div className="w-full flex md:flex-row md:space-x-4 sm:flex-col sm:space-y-2">
                         <FormControl required variant="outlined" fullWidth>
-                            <div>
+                            <div className={'mt-2'}>
                                 Check in/out Dates
                                 <span className={'font-extrabold text-red-700'} >*</span>
                             </div>
-                            <DateRangePicker intialvalue={selectedvalues} valueChanged={valueChanged}
-                                             itemcode={undefined} />
+                            <DateRangePicker
+                                intialvalue={selectedvalues}
+                                valueChanged={valueChanged}
+                                itemcode={undefined}
+                            />
                             {formik.errors.date && formik.touched.date && (
                                 <div className="w-full text-red-600">{formik.errors.date}</div>
                             )}
@@ -73,7 +75,7 @@ const FavouritePropertiesPage = (props: IBookingProps) => {
                     </div>
                     <div className="w-full flex md:flex-row md:space-x-4 sm:flex-col sm:space-y-2">
                         <FormControl required variant="outlined" fullWidth>
-                            <div>
+                            <div className={'mt-2'}>
                                 First Name
                                 <span className={'font-extrabold text-red-700'}>*</span>
                             </div>
@@ -113,7 +115,7 @@ const FavouritePropertiesPage = (props: IBookingProps) => {
                     </div>
                     <div className="w-full flex md:flex-row md:space-x-4 sm:flex-col sm:space-y-2">
                         <FormControl required variant="outlined" fullWidth>
-                            <div>
+                            <div className={'mt-2'}>
                                 Billing Address
                                 <span className={'font-extrabold text-red-700'}>*</span>
                             </div>
@@ -157,7 +159,7 @@ const FavouritePropertiesPage = (props: IBookingProps) => {
                     </div>
                     <div className="w-full flex md:flex-row md:space-x-4 sm:flex-col sm:space-y-2">
                         <FormControl required variant="outlined" fullWidth>
-                            <div>
+                            <div className={'mt-2'}>
                                 PostalCode
                                 <span className={'font-extrabold text-red-700'}>*</span>
                             </div>
@@ -197,7 +199,7 @@ const FavouritePropertiesPage = (props: IBookingProps) => {
                     </div>
                     <div className="w-full flex md:flex-row md:space-x-4 sm:flex-col sm:space-y-2">
                         <FormControl required variant="outlined" fullWidth>
-                            <div>
+                            <div className={'mt-2'}>
                                 Phone Number
                                 <span className={'font-extrabold text-red-700'}>*</span>
                             </div>
@@ -207,7 +209,7 @@ const FavouritePropertiesPage = (props: IBookingProps) => {
                                 color="primary"
                                 variant="outlined"
                                 name="personalDetails.phoneNumber"
-                                value={formik.values.personalDetails.lastName}
+                                value={formik.values.personalDetails.phoneNumber}
                                 onChange={formik.handleChange('personalDetails.phoneNumber')}
                                 onBlur={formik.handleBlur}
                             />
@@ -240,7 +242,6 @@ const FavouritePropertiesPage = (props: IBookingProps) => {
                             disabled={formik.isSubmitting || !formik.isValid}
                             size="large"
                             variant="outlined"
-                            style={{backgroundColor: "green"}}
                             onClick={onSubmit}
                         >
                             BOOK NOW
@@ -250,4 +251,4 @@ const FavouritePropertiesPage = (props: IBookingProps) => {
             </div>
     )
 }
-export default FavouritePropertiesPage;
+export default BookingForm;
