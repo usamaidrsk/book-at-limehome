@@ -7,200 +7,176 @@ import { extendMoment } from "moment-range";
 const moment = extendMoment(originalMoment);
 
 const DateRangeComponent = ({ valueChanged, itemcode, intialvalue }) => {
-    const switchcasehandle = value => {
-        let daterange = moment.range(today.clone(), today.clone());
-        switch (value) {
-            case "TD": {
-                daterange = moment.range(today.clone(), today.clone());
-                break;
-            }
-            case "YD": {
-                daterange = moment.range(
-                    today.clone().subtract(1, "days"),
-                    today.clone()
-                );
-                break;
-            }
-            case "TW": {
-                daterange = moment.range(
-                    today.clone().startOf("week"),
-                    today.clone().endOf("week")
-                );
-                break;
-            }
-            case "LW": {
-                daterange = moment.range(
-                    today
-                        .clone()
-                        .subtract(7, "days")
-                        .startOf("week"),
-                    today
-                        .clone()
-                        .subtract(7, "days")
-                        .endOf("week")
-                );
-                break;
-            }
-            case "2W": {
-                daterange = moment.range(
-                    today
-                        .clone()
-                        .subtract(14, "days")
-                        .startOf("week"),
-                    today
-                        .clone()
-                        .subtract(7, "days")
-                        .endOf("week")
-                );
-                break;
-            }
-            case "L30D": {
-                daterange = moment.range(
-                    today.clone().subtract(31, "days"),
-                    today.clone()
-                );
-                break;
-            }
-            case "TM": {
-                daterange = moment.range(
-                    today.clone().startOf("month"),
-                    today.clone().endOf("month")
-                );
-                break;
-            }
-            case "LM": {
-                daterange = moment.range(
-                    today
-                        .clone()
-                        .subtract(31, "days")
-                        .startOf("month"),
-                    today
-                        .clone()
-                        .subtract(31, "days")
-                        .endOf("month")
-                );
-                break;
-            }
-            case "3M": {
-                daterange = moment.range(
-                    today
-                        .clone()
-                        .subtract(90, "days")
-                        .startOf("month"),
-                    today.clone()
-                );
-                break;
-            }
-            case "6M": {
-                daterange = moment.range(
-                    today
-                        .clone()
-                        .subtract(180, "days")
-                        .startOf("month"),
-                    today.clone()
-                );
-                break;
-            }
-            case "12M": {
-                daterange = moment.range(
-                    today
-                        .clone()
-                        .subtract(364, "days")
-                        .startOf("month"),
-                    today.clone()
-                );
-                break;
-            }
-            case "TY": {
-                daterange = moment.range(today.clone().startOf("year"), today.clone());
-                break;
-            }
-            case "LY": {
-                daterange = moment.range(
-                    today
-                        .clone()
-                        .subtract(364, "days")
-                        .startOf("year"),
-                    today.clone()
-                );
-                break;
-            }
-            default: {
-                daterange = moment.range(today.clone(), today.clone());
-                break;
-            }
-        }
-        return daterange;
-    };
-
-    const today = moment();
-
-    const [date, Setdate] = useState({
-        startDate: "",
-        endDate: "",
-        key: ""
-    });
-
-    const [open, setOpen] = useState(false);
-
-    useEffect(() => {
-        Setdate({
-            startDate: intialvalue.startDate,
-            endDate: intialvalue.endDate,
-            key: intialvalue.key
-        });
-    }, [intialvalue]);
-
-    const customStyles = {
-        menu: (provided, state) => ({
-            ...provided,
-            width: state.selectProps.width,
-            height: state.selectProps.height,
-            borderBottom: "1px dotted pink",
-            color: state.selectProps.menuColor,
-            padding: 0
-        }),
-        input: (provided, state) => ({
-            ...provided,
-            padding: '.77em',
-            textAlign: "center"
-        }),
-        singleValue: (provided, state) => {
-            const opacity = state.isDisabled ? 0.5 : 1;
-            const transition = "opacity 300ms";
-            return { ...provided, opacity, transition };
-        }
-    };
-
-    const selectLable = (date) => {
-        const startDate = moment(date.startDate).format('MMM').toUpperCase() + " " + moment(date.startDate).format('DD')
-        const endDate = moment(date.endDate).format('MMM').toUpperCase() + " " + moment(date.endDate).format('DD')
-        return   startDate + "-" + endDate
+  const switchcasehandle = (value) => {
+    let daterange = moment.range(today.clone(), today.clone());
+    switch (value) {
+      case "TD": {
+        daterange = moment.range(today.clone(), today.clone());
+        break;
+      }
+      case "YD": {
+        daterange = moment.range(
+          today.clone().subtract(1, "days"),
+          today.clone()
+        );
+        break;
+      }
+      case "TW": {
+        daterange = moment.range(
+          today.clone().startOf("week"),
+          today.clone().endOf("week")
+        );
+        break;
+      }
+      case "LW": {
+        daterange = moment.range(
+          today.clone().subtract(7, "days").startOf("week"),
+          today.clone().subtract(7, "days").endOf("week")
+        );
+        break;
+      }
+      case "2W": {
+        daterange = moment.range(
+          today.clone().subtract(14, "days").startOf("week"),
+          today.clone().subtract(7, "days").endOf("week")
+        );
+        break;
+      }
+      case "L30D": {
+        daterange = moment.range(
+          today.clone().subtract(31, "days"),
+          today.clone()
+        );
+        break;
+      }
+      case "TM": {
+        daterange = moment.range(
+          today.clone().startOf("month"),
+          today.clone().endOf("month")
+        );
+        break;
+      }
+      case "LM": {
+        daterange = moment.range(
+          today.clone().subtract(31, "days").startOf("month"),
+          today.clone().subtract(31, "days").endOf("month")
+        );
+        break;
+      }
+      case "3M": {
+        daterange = moment.range(
+          today.clone().subtract(90, "days").startOf("month"),
+          today.clone()
+        );
+        break;
+      }
+      case "6M": {
+        daterange = moment.range(
+          today.clone().subtract(180, "days").startOf("month"),
+          today.clone()
+        );
+        break;
+      }
+      case "12M": {
+        daterange = moment.range(
+          today.clone().subtract(364, "days").startOf("month"),
+          today.clone()
+        );
+        break;
+      }
+      case "TY": {
+        daterange = moment.range(today.clone().startOf("year"), today.clone());
+        break;
+      }
+      case "LY": {
+        daterange = moment.range(
+          today.clone().subtract(364, "days").startOf("year"),
+          today.clone()
+        );
+        break;
+      }
+      default: {
+        daterange = moment.range(today.clone(), today.clone());
+        break;
+      }
     }
-    const setValue = (startdate, enddate, key) => {
-        console.log("inside date picker setvalues", startdate, enddate, key);
-        Setdate({ startDate: startdate, endDate: enddate, key: key });
-    };
+    return daterange;
+  };
 
-    const CustomCalender = props => {
-        return <Calendar props={props} setvalue={setValue} date={date} />;
-    };
-    return (
-        <Select
-            options={[{ label: "", value: "" }]}
-            value={{
-                label: selectLable(date),
-                value: date.startDate
-            }}
-            components={{ Option: CustomCalender }}
-            onMenuClose={() => {
-                let value = date;
-                valueChanged(value);
-            }}
-            styles={customStyles}
-            maxMenuHeight="200"
-            closeMenuOnSelect={false}
-        />
-    );
+  const today = moment();
+
+  const [date, Setdate] = useState({
+    startDate: "",
+    endDate: "",
+    key: "",
+  });
+
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    Setdate({
+      startDate: intialvalue.startDate,
+      endDate: intialvalue.endDate,
+      key: intialvalue.key,
+    });
+  }, [intialvalue]);
+
+  const customStyles = {
+    menu: (provided, state) => ({
+      ...provided,
+      width: state.selectProps.width,
+      height: state.selectProps.height,
+      borderBottom: "1px dotted pink",
+      color: state.selectProps.menuColor,
+      padding: 0,
+    }),
+    input: (provided, state) => ({
+      ...provided,
+      padding: ".77em",
+      textAlign: "center",
+    }),
+    singleValue: (provided, state) => {
+      const opacity = state.isDisabled ? 0.5 : 1;
+      const transition = "opacity 300ms";
+      return { ...provided, opacity, transition };
+    },
+  };
+
+  const selectLable = (date) => {
+    const startDate =
+      moment(date.startDate).format("MMM").toUpperCase() +
+      " " +
+      moment(date.startDate).format("DD");
+    const endDate =
+      moment(date.endDate).format("MMM").toUpperCase() +
+      " " +
+      moment(date.endDate).format("DD");
+    return startDate + "-" + endDate;
+  };
+  const setValue = (startdate, enddate, key) => {
+    console.log("inside date picker setvalues", startdate, enddate, key);
+    Setdate({ startDate: startdate, endDate: enddate, key: key });
+  };
+
+  const CustomCalender = (props) => {
+    return <Calendar props={props} setvalue={setValue} date={date} />;
+  };
+  return (
+    <Select
+      options={[{ label: "", value: "" }]}
+      value={{
+        label: selectLable(date),
+        value: date.startDate,
+      }}
+      components={{ Option: CustomCalender }}
+      onMenuClose={() => {
+        let value = date;
+        valueChanged(value);
+      }}
+      styles={customStyles}
+      maxMenuHeight="200"
+      closeMenuOnSelect={false}
+    />
+  );
 };
 export default DateRangeComponent;
