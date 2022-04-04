@@ -2,7 +2,7 @@ import React from 'react';
 import {IBookingInfo} from "../Helper/interfaces/booking";
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
-import {FormikProps} from "formik";
+import {FormikProps, useFormikContext} from "formik";
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -17,16 +17,18 @@ type IBookingProps = {
 
 const FavouritePropertiesPage = (props: IBookingProps) => {
     const { formik, countries, onSubmit } = props;
+    const { setFieldValue } = useFormikContext();
 
 
     let selectedvalues = {
-        startDate: "2020-01-02",
-        endDate: "2020-01-02",
+        startDate: "2022-04-02",
+        endDate: "2022-05-02",
         key: ""
     };
 
     const valueChanged = (dateobject: any) => {
-        console.log("dateObject", dateobject);
+        setFieldValue('checkIn', dateobject.startDate)
+        setFieldValue('checkOut', dateobject.endDate)
     };
 
     return (
@@ -40,8 +42,10 @@ const FavouritePropertiesPage = (props: IBookingProps) => {
                                 Check in/out Dates
                                 <span className={'font-extrabold text-red-700'} >*</span>
                             </div>
+                            <div className="w-full flex md:flex-row md:space-x-4 sm:flex-col sm:space-y-2">
                             <DateRangePicker intialvalue={selectedvalues} valueChanged={valueChanged}
                                              itemcode={undefined} />
+                            </div>
                             {formik.errors.date && formik.touched.date && (
                                 <div className="w-full text-red-600">{formik.errors.date}</div>
                             )}

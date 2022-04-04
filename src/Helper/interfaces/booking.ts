@@ -1,5 +1,6 @@
 export interface IBookingInfo {
-    date: string;
+    checkIn: string;
+    checkOut: string;
     numberOfGuests: number | string;
     personalDetails: {
         firstName: string;

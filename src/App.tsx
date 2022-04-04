@@ -5,7 +5,8 @@ import {useFormik} from "formik";
 import bookingValidator from "./Helper/validations/booking";
 import {countries} from "./Helper/constants/countries";
 const initialFormData: IBookingInfo = {
-  date: "",
+  checkIn: "",
+  checkOut:"",
   numberOfGuests: '',
   personalDetails: {
     firstName: "",
