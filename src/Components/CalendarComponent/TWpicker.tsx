@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import DropdownMenu, { DropdownItem } from "@atlaskit/dropdown-menu";
 
-const Twpicker = ({ TWHandle }) => {
+const Twpicker = ({ TWHandle }: {TWHandle: (value: string) => void}) => {
   const [Range, setRange] = useState({
     name: "Date range Template",
     value: null,
   });
 
-  const DropdownChangeHandle = (name, value) => {
-    console.log("value selected", value);
+  const DropdownChangeHandle = (name: string, value: any) => {
     setRange({ name: name, value: value });
     TWHandle(value);
   };

@@ -8,24 +8,25 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 import DateRangePicker from "./CalendarComponent/DateRangeCompnentContainer";
+import Spinner from '@atlaskit/spinner';
+import moment from "moment";
 
 type IBookingProps = {
   formik: FormikProps<IBookingInfo>;
   countries: Array<{ name: string; code: string }>;
-  onSubmit: () => void;
+  onSubmit: (values: IBookingInfo) => void;
 };
 
 const BookingForm = (props: IBookingProps) => {
   const { formik, countries, onSubmit } = props;
-
   let selectedvalues = {
-    startDate: "2020-01-02",
-    endDate: "2020-01-02",
+    startDate: moment().format("YYYY-MM-DD"),
+    endDate: moment().format("YYYY-MM-DD"),
     key: "",
   };
 
   const valueChanged = (dateobject: any) => {
-    console.log("dateObject", dateobject);
+    formik.setFieldValue('date', dateobject.startDate+","+ dateobject.endDate)
   };
 
   return (
@@ -37,14 +38,14 @@ const BookingForm = (props: IBookingProps) => {
       <div className="w-full flex flex-col space-y-4 mt-5">
         <div className="w-full flex md:flex-row md:space-x-4 sm:flex-col sm:space-y-2">
           <FormControl required variant="outlined" fullWidth>
-            <div className={"mt-2"}>
+            <div className={"md:mt-2"}>
               Check in/out Dates
               <span className={"font-extrabold text-red-700"}>*</span>
             </div>
             <DateRangePicker
-              intialvalue={selectedvalues}
+              initialValue={selectedvalues}
               valueChanged={valueChanged}
-              itemcode={undefined}
+              itemCode={undefined}
             />
             {formik.errors.date && formik.touched.date && (
               <div className="w-full text-red-600">{formik.errors.date}</div>
@@ -78,7 +79,7 @@ const BookingForm = (props: IBookingProps) => {
         </div>
         <div className="w-full flex md:flex-row md:space-x-4 sm:flex-col sm:space-y-2">
           <FormControl required variant="outlined" fullWidth>
-            <div className={"mt-2"}>
+            <div className={"md:mt-2"}>
               First Name
               <span className={"font-extrabold text-red-700"}>*</span>
             </div>
@@ -124,7 +125,7 @@ const BookingForm = (props: IBookingProps) => {
         </div>
         <div className="w-full flex md:flex-row md:space-x-4 sm:flex-col sm:space-y-2">
           <FormControl required variant="outlined" fullWidth>
-            <div className={"mt-2"}>
+            <div className={"md:mt-2"}>
               Billing Address
               <span className={"font-extrabold text-red-700"}>*</span>
             </div>
@@ -154,12 +155,11 @@ const BookingForm = (props: IBookingProps) => {
               value={formik.values.location.billingCountry}
               name={"location.billingCountry"}
               labelId="location.billingCountry"
-              placeholder="Select Country..."
               onChange={formik.handleChange("location.billingCountry")}
               onBlur={formik.handleBlur}
-              inputProps={{ "aria-label": "Select Country" }}
+              inputProps={{ "aria-placeholder": "Select Country..." }}
             >
-              <MenuItem value="" disabled selected>
+              <MenuItem disabled value="x">
                 Select Country...
               </MenuItem>
               {countries.map((x: any) => (
@@ -178,7 +178,7 @@ const BookingForm = (props: IBookingProps) => {
         </div>
         <div className="w-full flex md:flex-row md:space-x-4 sm:flex-col sm:space-y-2">
           <FormControl required variant="outlined" fullWidth>
-            <div className={"mt-2"}>
+            <div className={"md:mt-2"}>
               PostalCode
               <span className={"font-extrabold text-red-700"}>*</span>
             </div>
@@ -223,7 +223,7 @@ const BookingForm = (props: IBookingProps) => {
         </div>
         <div className="w-full flex md:flex-row md:space-x-4 sm:flex-col sm:space-y-2">
           <FormControl required variant="outlined" fullWidth>
-            <div className={"mt-2"}>
+            <div className={"md:mt-2"}>
               Phone Number
               <span className={"font-extrabold text-red-700"}>*</span>
             </div>
@@ -272,9 +272,10 @@ const BookingForm = (props: IBookingProps) => {
             disabled={formik.isSubmitting || !formik.isValid}
             size="large"
             variant="outlined"
-            onClick={onSubmit}
+            onClick={() => onSubmit(formik.values)}
+            id="submit-button"
           >
-            BOOK NOW
+            {formik.isSubmitting ? <Spinner /> : "BOOK NOW" }
           </Button>
         </div>
       </div>

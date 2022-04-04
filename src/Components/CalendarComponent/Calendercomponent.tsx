@@ -1,13 +1,21 @@
-import React, { useState, useEffect } from "react";
-import "react-daterange-picker/dist/css/react-calendar.css"; // For some basic styling. (OPTIONAL)
-import Select from "react-select";
-import Calendar from "./Calendercomponent";
+import React, { Fragment, useState, useEffect, useCallback } from "react";
+import DateRangePicker from "react-daterange-picker";
+import "react-daterange-picker/dist/css/react-calendar.css";
 import originalMoment from "moment";
 import { extendMoment } from "moment-range";
+import Twpicker from "./TWpicker";
+
+// @ts-ignore
 const moment = extendMoment(originalMoment);
 
-const DateRangeComponent = ({ valueChanged, itemcode, intialvalue }) => {
-  const switchcasehandle = (value) => {
+interface ICalenderProps {
+  props: any;
+  setValue: (start: string, end: string, value: any) => void,
+  date: any
+}
+const Calender = ({ props, setValue, date}: ICalenderProps) => {
+  const today = moment();
+  const switchCaseHandle =  useCallback((value: string) => {
     let daterange = moment.range(today.clone(), today.clone());
     switch (value) {
       case "TD": {
@@ -101,82 +109,60 @@ const DateRangeComponent = ({ valueChanged, itemcode, intialvalue }) => {
       }
     }
     return daterange;
-  };
-
-  const today = moment();
-
-  const [date, Setdate] = useState({
-    startDate: "",
-    endDate: "",
-    key: "",
-  });
-
-  const [open, setOpen] = useState(false);
+  },[today]);
 
   useEffect(() => {
-    Setdate({
-      startDate: intialvalue.startDate,
-      endDate: intialvalue.endDate,
-      key: intialvalue.key,
-    });
-  }, [intialvalue]);
+    if (date.key !== "") {
+      switchCaseHandle(date.key);
+    }
+  }, [date, switchCaseHandle]);
 
-  const customStyles = {
-    menu: (provided, state) => ({
-      ...provided,
-      width: state.selectProps.width,
-      height: state.selectProps.height,
-      borderBottom: "1px dotted pink",
-      color: state.selectProps.menuColor,
-      padding: 0,
-    }),
-    input: (provided, state) => ({
-      ...provided,
-      padding: ".77em",
-      textAlign: "center",
-    }),
-    singleValue: (provided, state) => {
-      const opacity = state.isDisabled ? 0.5 : 1;
-      const transition = "opacity 300ms";
-      return { ...provided, opacity, transition };
-    },
+  const [Daterange, setDaterange] = useState(
+    moment.range(date.startDate, date.endDate)
+  );
+
+  const onSelect = (value: any) => {
+    setDaterange(value);
+    setValue(value.start.format("YYYY-MM-DD"), value.end.format("YYYY-MM-DD"), "");
   };
 
-  const selectLable = (date) => {
-    const startDate =
-      moment(date.startDate).format("MMM").toUpperCase() +
-      " " +
-      moment(date.startDate).format("DD");
-    const endDate =
-      moment(date.endDate).format("MMM").toUpperCase() +
-      " " +
-      moment(date.endDate).format("DD");
-    return startDate + "-" + endDate;
-  };
-  const setValue = (startdate, enddate, key) => {
-    console.log("inside date picker setvalues", startdate, enddate, key);
-    Setdate({ startDate: startdate, endDate: enddate, key: key });
+  const renderSelectionValue = () => {
+    return (
+      <div>
+        {Daterange.start.format("YYYY-MM-DD")}
+        {" - "}
+        {Daterange.end.format("YYYY-MM-DD")}
+      </div>
+    );
   };
 
-  const CustomCalender = (props) => {
-    return <Calendar props={props} setvalue={setValue} date={date} />;
+  const TWHandle = (value: string) => {
+    let daterange = switchCaseHandle(value);
+    setDaterange(daterange);
+    setValue(
+      daterange.start.format("YYYY-MM-DD"),
+      daterange.end.format("YYYY-MM-DD"),
+      value
+    );
   };
+
   return (
-    <Select
-      options={[{ label: "", value: "" }]}
-      value={{
-        label: selectLable(date),
-        value: date.startDate,
-      }}
-      components={{ Option: CustomCalender }}
-      onMenuClose={() => {
-        let value = date;
-        valueChanged(value);
-      }}
-      styles={customStyles}
-      maxMenuHeight="200"
-      closeMenuOnSelect={false}
-    />
+    <Fragment>
+      <div className={'flex flex-col justify-center'}>
+        <div className={'text-center'}>
+          <h5>{renderSelectionValue()}</h5>
+        </div>
+        <DateRangePicker
+          value={Daterange}
+          onSelect={onSelect}
+          singleDateRange={true}
+          numberOfCalendars={2}
+          minimumDate={new Date()}
+        />
+      </div>
+       <Twpicker TWHandle={TWHandle} />
+    </Fragment>
   );
 };
-export default DateRangeComponent;
+
+export default Calender;

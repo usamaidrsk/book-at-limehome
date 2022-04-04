@@ -40,7 +40,7 @@ const bookingValidator = Yup.object()
       ),
       billingCountry: Yup.string().required(
         errorMessages.required("Billing Country")
-      ),
+      ).min(2, errorMessages.required("Billing Country")),
       postalCode: Yup.string().required(errorMessages.required("Postal Code")),
       city: Yup.string().required(errorMessages.required("City")),
     }),

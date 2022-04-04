@@ -5,9 +5,11 @@ import { useFormik } from "formik";
 import bookingValidator from "./Helper/validations/booking";
 import axios from "axios";
 import { API, END_POINTS } from "./Helper/constants/urls";
+import SectionMessage, { SectionMessageAction } from '@atlaskit/section-message';
+import moment from "moment";
 
 const initialFormData: IBookingInfo = {
-  date: "",
+  date: moment().format("YYYY-MM-DD") + "," + moment().format("YYYY-MM-DD"),
   numberOfGuests: "",
   personalDetails: {
     firstName: "",
@@ -17,24 +19,48 @@ const initialFormData: IBookingInfo = {
   },
   location: {
     billingAddress: "",
-    billingCountry: "",
+    billingCountry: "x",
     postalCode: "",
     city: "",
   },
-};
-
-const handleSubmit = async (values: IBookingInfo) => {
-  //
-};
-
-const onSubmit = () => {
-  // TODO call the handleSubmit
 };
 
 const App = () => {
   const [countries, setCountries] = useState<
     Array<{ country: string; code: string }>
   >([]);
+  const [message, setMessage] = useState<string>("")
+  const [messageType, setMessageType] = useState<string>("")
+  const [showNotification, setShowNotification] = useState<boolean>(false)
+  const handleSubmit = (values: IBookingInfo) => {
+    const {billingAddress, billingCountry, postalCode, city }  = values.location
+    const {firstName, lastName, email, phoneNumber} = values.personalDetails
+    const postData = {
+      billing_address: billingAddress,
+      billing_country: billingCountry,
+      check_in: values.date.split(",")[0],
+      check_out: values.date.split(",")[1],
+      city, email,
+      first_name: firstName,
+      last_name: lastName,
+      number_of_guests: values.numberOfGuests,
+      phone_number: phoneNumber,
+      postal_code: postalCode
+    }
+    axios.post(API + END_POINTS.POST_BOOKING, postData).then((res) => {
+      setShowNotification(true)
+      setMessageType("success")
+      setMessage("Booking was successful")
+    }).catch((error: any)  => {
+      setShowNotification(true)
+      setMessageType("error")
+      if(error.response.status === 400) setMessage(error.response.data.email[0])
+      else setMessage("Something went wrong")
+    });;
+  };
+
+
+
   const formik = useFormik<IBookingInfo>({
     initialValues: initialFormData,
     onSubmit: handleSubmit,
@@ -46,19 +72,36 @@ const App = () => {
   });
 
   useEffect(() => {
-    axios.get(API + END_POINTS.GET_COUNTRIES).then((res) => {
+    axios.get(API + END_POINTS.GET_COUNTRIES).then((res: any) => {
       setCountries(res.data);
-    });
-  }, [countries]);
+    })
+  }, []);
   return (
-    <BookingForm
-      formik={formik}
-      countries={countries.map((country) => ({
-        name: country.country,
-        code: country.code,
-      }))}
-      onSubmit={onSubmit}
-    />
+      <>
+        {
+          showNotification &&
+            <SectionMessage
+                appearance={messageType}
+                actions={[
+                  <SectionMessageAction
+                      onClick={() => setShowNotification(false)}
+                  >
+                    Dismiss
+                  </SectionMessageAction>,
+                ]}
+            >
+              <p>{message}</p>
+            </SectionMessage>
+        }
+        <BookingForm
+            formik={formik}
+            countries={countries.map((country) => ({
+              name: country.country,
+              code: country.code,
+            }))}
+            onSubmit={handleSubmit}
+        />
+      </>
   );
 };
 
