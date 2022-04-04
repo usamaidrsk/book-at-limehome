@@ -1,14 +1,14 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import BookingForm from "./Components/BookingForm";
-import {IBookingInfo} from "./Helper/interfaces/booking";
-import {useFormik} from "formik";
+import { IBookingInfo } from "./Helper/interfaces/booking";
+import { useFormik } from "formik";
 import bookingValidator from "./Helper/validations/booking";
-import axios from 'axios';
-import { API, END_POINTS } from './Helper/constants/urls';
+import axios from "axios";
+import { API, END_POINTS } from "./Helper/constants/urls";
 
 const initialFormData: IBookingInfo = {
   date: "",
-  numberOfGuests: '',
+  numberOfGuests: "",
   personalDetails: {
     firstName: "",
     lastName: "",
@@ -19,20 +19,22 @@ const initialFormData: IBookingInfo = {
     billingAddress: "",
     billingCountry: "",
     postalCode: "",
-    city: ""
-  }
-}
+    city: "",
+  },
+};
 
 const handleSubmit = async (values: IBookingInfo) => {
-//
-}
+  //
+};
 
 const onSubmit = () => {
-// TODO call the handleSubmit
-}
+  // TODO call the handleSubmit
+};
 
 const App = () => {
-  const [countries, setCountries] = useState<Array<{country: string, code: string}>>([]);
+  const [countries, setCountries] = useState<
+    Array<{ country: string; code: string }>
+  >([]);
   const formik = useFormik<IBookingInfo>({
     initialValues: initialFormData,
     onSubmit: handleSubmit,
@@ -40,22 +42,24 @@ const App = () => {
     validateOnChange: true,
     validateOnBlur: true,
     validateOnMount: true,
-    validationSchema: bookingValidator
+    validationSchema: bookingValidator,
   });
 
   useEffect(() => {
-    axios.get(API + END_POINTS.GET_COUNTRIES)
-        .then(res => {
-          setCountries(res.data);
-        })
+    axios.get(API + END_POINTS.GET_COUNTRIES).then((res) => {
+      setCountries(res.data);
+    });
   }, [countries]);
   return (
-      <BookingForm
-        formik={formik}
-        countries={countries.map(country => ({name: country.country, code: country.code}))}
-        onSubmit={onSubmit}
-      />);
-}
+    <BookingForm
+      formik={formik}
+      countries={countries.map((country) => ({
+        name: country.country,
+        code: country.code,
+      }))}
+      onSubmit={onSubmit}
+    />
+  );
+};
 
 export default App;
-

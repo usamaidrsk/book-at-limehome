@@ -3,22 +3,22 @@
 @tailwind utilities;
 
 body {
-    padding: 0 !important;
-    margin: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 button {
-    padding: .8em 3em !important;
-    color: white !important;
-    margin-bottom: .5em !important;
+  padding: 0.8em 3em !important;
+  color: white !important;
+  margin-bottom: 0.5em !important;
 }
 button:disabled {
-    cursor: not-allowed !important;
-    pointer-events: all !important;
-    background-color: darkgray !important;
-    color: black !important;
+  cursor: not-allowed !important;
+  pointer-events: all !important;
+  background-color: darkgray !important;
+  color: black !important;
 }
 
 button:hover {
-     background-color: darkgray !important;
+  background-color: darkgray !important;
 }
