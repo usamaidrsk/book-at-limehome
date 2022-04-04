@@ -8,6 +8,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from "@material-ui/core/Divider";
 import DateRangePicker from "./CalendarComponent/DateRangeCompnentContainer";
+import {data} from "autoprefixer";
 
 type IBookingProps = {
     formik: FormikProps<IBookingInfo>;
@@ -27,8 +28,9 @@ const FavouritePropertiesPage = (props: IBookingProps) => {
     };
 
     const valueChanged = (dateobject: any) => {
-        setFieldValue('checkIn', dateobject.startDate)
-        setFieldValue('checkOut', dateobject.endDate)
+        console.log("dateObject", dateobject);
+        let finalDate = dateobject.startDate + "," + dateobject.endDate
+        setFieldValue('date', finalDate)
     };
 
     return (
