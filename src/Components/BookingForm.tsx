@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from "@material-ui/core/Divider";
+import DateRangePicker from "./CalendarComponent/DateRangeCompnentContainer";
 
 type IBookingProps = {
     formik: FormikProps<IBookingInfo>;
@@ -16,6 +17,17 @@ type IBookingProps = {
 
 const FavouritePropertiesPage = (props: IBookingProps) => {
     const { formik, countries, onSubmit } = props;
+
+
+    let selectedvalues = {
+        startDate: "2020-01-02",
+        endDate: "2020-01-02",
+        key: ""
+    };
+
+    const valueChanged = (dateobject: any) => {
+        console.log("dateObject", dateobject);
+    };
 
     return (
             <div className={'md:w-3/5 mx-auto mt-10 sm:w-4/5'}>
@@ -28,14 +40,8 @@ const FavouritePropertiesPage = (props: IBookingProps) => {
                                 Check in/out Dates
                                 <span className={'font-extrabold text-red-700'} >*</span>
                             </div>
-                            {/*<LocalizationProvider dateAdapter={AdapterDateFns}>*/}
-                            {/*  <DatePicker*/}
-                            {/*      label="Basic example"*/}
-                            {/*      value={formik.values.date}*/}
-                            {/*      onChange={(newValue: any) => {}}*/}
-                            {/*      renderInput={(params: any) => <TextField {...params} />}*/}
-                            {/*  />*/}
-                            {/*</LocalizationProvider>*/}
+                            <DateRangePicker intialvalue={selectedvalues} valueChanged={valueChanged}
+                                             itemcode={undefined} />
                             {formik.errors.date && formik.touched.date && (
                                 <div className="w-full text-red-600">{formik.errors.date}</div>
                             )}
