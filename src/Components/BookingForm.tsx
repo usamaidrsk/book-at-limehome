@@ -25,7 +25,7 @@ const BookingForm = (props: IBookingProps) => {
     };
 
     const valueChanged = (dateobject: any) => {
-        console.log("dateObject", dateobject);
+        formik.setFieldValue('date', dateobject.startDate+","+ dateobject.endDate)
     };
 
     return (
