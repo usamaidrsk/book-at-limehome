@@ -24,7 +24,7 @@ yarn  start
 
 ### Testing
 
-* Use the following command to run tests in the application:
+* Use the following command to run integration tests in the application:
  ```
  npx cypress open
  ```
